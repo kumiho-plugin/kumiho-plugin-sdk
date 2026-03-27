@@ -11,7 +11,7 @@ capability/   Capability constants (metadata.search, metadata.fetch, …)
 config/       ConfigSchema, MigrationDescriptor
 errors/       ErrorCode, PluginError
 healthcheck/  Status, Response, Checker interface, timeout/retry conventions
-manifest/     Manifest, TrustLevel, RuntimeType, Platform, Artifact
+manifest/     Manifest, TrustLevel, RuntimeType, Platform, Artifact, IconSet
 plugin/       MetadataPlugin interface
 service/      ServiceRuntime HTTP contract (path/status constants)
 state/        Plugin lifecycle state constants
@@ -84,6 +84,7 @@ func (p *MyPlugin) Manifest() *manifest.Manifest {
         Name:                "My Provider",
         Version:             "1.0.0",
         Author:              "you",
+        Icons:               &manifest.IconSet{SVG: "https://example.com/icon.svg", PNG: "https://example.com/icon.png"},
         TrustLevel:          manifest.TrustLevelUnverified,
         RuntimeType:         manifest.RuntimeTypeBinary,
         SupportedPlatforms:  []manifest.Platform{manifest.PlatformLinuxBinary},
@@ -94,6 +95,17 @@ func (p *MyPlugin) Manifest() *manifest.Manifest {
     }
 }
 ```
+
+### 1.1 Visual metadata
+
+Use `Manifest.Icons` to provide plugin card artwork for the core UI.
+
+- Prefer `svg` for scalable brand icons.
+- Provide `png` as a fallback for clients that do not render SVG.
+- Keep `Author` filled; plugin cards are expected to show both icon and author.
+
+The core may dim inactive plugins or add glow/pulse effects for active plugins, so
+the icon should remain recognizable on dark backgrounds.
 
 ### 2. Error handling rules
 

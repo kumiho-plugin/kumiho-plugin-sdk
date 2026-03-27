@@ -47,18 +47,26 @@ type Artifact struct {
 	Signature string   `json:"signature,omitempty"` // detached signature for verified plugins
 }
 
+// IconSet describes optional visual assets for plugin UIs.
+// The core should prefer SVG when available and fall back to PNG otherwise.
+type IconSet struct {
+	SVG string `json:"svg,omitempty"`
+	PNG string `json:"png,omitempty"`
+}
+
 // Manifest is the static metadata declaration of a plugin.
 // It is stored in the plugin registry and validated by the core on install.
 type Manifest struct {
 	// Identity
-	ID          string `json:"id"`   // e.g. "kumiho-plugin-metadata-googlebooks"
-	Name        string `json:"name"` // e.g. "Google Books"
-	Description string `json:"description"`
-	Version     string `json:"version"` // semver, e.g. "1.2.0"
-	Author      string `json:"author"`
-	Homepage    string `json:"homepage,omitempty"`
-	Repository  string `json:"repository,omitempty"`
-	License     string `json:"license,omitempty"`
+	ID          string   `json:"id"`   // e.g. "kumiho-plugin-metadata-googlebooks"
+	Name        string   `json:"name"` // e.g. "Google Books"
+	Description string   `json:"description"`
+	Version     string   `json:"version"` // semver, e.g. "1.2.0"
+	Author      string   `json:"author"`
+	Homepage    string   `json:"homepage,omitempty"`
+	Repository  string   `json:"repository,omitempty"`
+	License     string   `json:"license,omitempty"`
+	Icons       *IconSet `json:"icons,omitempty"`
 
 	// Trust & runtime
 	TrustLevel         TrustLevel  `json:"trust_level"`
