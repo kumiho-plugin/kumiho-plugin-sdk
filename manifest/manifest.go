@@ -1,6 +1,9 @@
 package manifest
 
-import "github.com/kumiho-plugin/kumiho-plugin-sdk/capability"
+import (
+	"github.com/kumiho-plugin/kumiho-plugin-sdk/capability"
+	sdkconfig "github.com/kumiho-plugin/kumiho-plugin-sdk/config"
+)
 
 // TrustLevel indicates how much the core trusts a plugin.
 type TrustLevel string
@@ -58,8 +61,8 @@ type IconSet struct {
 // It is stored in the plugin registry and validated by the core on install.
 type Manifest struct {
 	// Identity
-	ID          string   `json:"id"`   // e.g. "kumiho-plugin-metadata-googlebooks"
-	Name        string   `json:"name"` // e.g. "Google Books"
+	ID          string   `json:"id"`   // e.g. "kumiho-plugin-metadata-kitsu"
+	Name        string   `json:"name"` // e.g. "Kitsu Manga"
 	Description string   `json:"description"`
 	Version     string   `json:"version"` // semver, e.g. "1.2.0"
 	Author      string   `json:"author"`
@@ -89,6 +92,8 @@ type Manifest struct {
 
 	// Config schema version declared by this plugin version
 	ConfigSchemaVersion string `json:"config_schema_version"`
+	ConfigSchema        *sdkconfig.Schema     `json:"config_schema,omitempty"`
+	Auth                *sdkconfig.AuthSchema `json:"auth,omitempty"`
 
 	// Downloadable artifacts, one per supported platform
 	Artifacts []Artifact `json:"artifacts"`

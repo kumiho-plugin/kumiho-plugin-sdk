@@ -19,7 +19,7 @@ type SourceRef struct {
 	// ID is the provider-specific identifier for this resource.
 	ID string `json:"id"`
 
-	// Name is the provider name, e.g. "googlebooks", "anilist".
+	// Name is the provider name, e.g. "kitsu", "anilist".
 	Name string `json:"name"`
 
 	// URL is the canonical web URL for this resource, if available.

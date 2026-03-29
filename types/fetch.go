@@ -33,7 +33,7 @@ type MetadataResult struct {
 	Publisher       string `json:"publisher,omitempty"`
 
 	// Identifiers holds known external IDs for this work
-	// (e.g. "isbn13", "asin", "anilist_id", "google_books_id").
+	// (e.g. "isbn13", "asin", "anilist_id", "provider_id").
 	Identifiers map[string]string `json:"identifiers,omitempty"`
 
 	SeriesName   string `json:"series_name,omitempty"`

@@ -32,6 +32,7 @@ type SearchCandidate struct {
 	Title         string      `json:"title"`
 	OriginalTitle string      `json:"original_title,omitempty"`
 	Authors       []string    `json:"authors,omitempty"`
+	Description   string      `json:"description,omitempty"`
 	ContentType   ContentType `json:"content_type,omitempty"`
 	Year          *int        `json:"year,omitempty"`
 	CoverURL      string      `json:"cover_url,omitempty"`
