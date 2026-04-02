@@ -15,18 +15,28 @@ type CoverInfo struct {
 	Height *int   `json:"height,omitempty"`
 }
 
+// MetadataCharacter is a normalized character entry returned by metadata.fetch.
+type MetadataCharacter struct {
+	ID          string            `json:"id,omitempty"`
+	Name        string            `json:"name"`
+	Role        string            `json:"role,omitempty"`
+	Image       *CoverInfo        `json:"image,omitempty"`
+	Identifiers map[string]string `json:"identifiers,omitempty"`
+}
+
 // MetadataResult is the full metadata payload returned by metadata.fetch.
 type MetadataResult struct {
 	// Source is the provider reference for this result.
 	Source SourceRef `json:"source"`
 
-	Title         string      `json:"title"`
-	OriginalTitle string      `json:"original_title,omitempty"`
-	Authors       []string    `json:"authors,omitempty"`
-	Description   string      `json:"description,omitempty"`
-	Tags          []string    `json:"tags,omitempty"`
-	ContentType   ContentType `json:"content_type,omitempty"`
-	Language      Language    `json:"language,omitempty"`
+	Title          string            `json:"title"`
+	OriginalTitle  string            `json:"original_title,omitempty"`
+	OriginalTitles map[string]string `json:"original_titles,omitempty"`
+	Authors        []string          `json:"authors,omitempty"`
+	Description    string            `json:"description,omitempty"`
+	Tags           []string          `json:"tags,omitempty"`
+	ContentType    ContentType       `json:"content_type,omitempty"`
+	Language       Language          `json:"language,omitempty"`
 
 	// PublicationDate is in YYYY-MM-DD or YYYY format.
 	PublicationDate string `json:"publication_date,omitempty"`
@@ -39,11 +49,12 @@ type MetadataResult struct {
 	SeriesName   string `json:"series_name,omitempty"`
 	VolumeNumber *int   `json:"volume_number,omitempty"`
 
-	Cover *CoverInfo `json:"cover,omitempty"`
+	Cover      *CoverInfo          `json:"cover,omitempty"`
+	Characters []MetadataCharacter `json:"characters,omitempty"`
 }
 
 // FetchResponse is the output of a plugin's metadata.fetch capability.
 type FetchResponse struct {
-	Result *MetadataResult          `json:"result,omitempty"`
+	Result *MetadataResult           `json:"result,omitempty"`
 	Error  *pluginerrors.PluginError `json:"error,omitempty"`
 }

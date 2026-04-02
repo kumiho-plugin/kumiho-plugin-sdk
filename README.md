@@ -70,6 +70,13 @@ func (p *MyPlugin) Fetch(ctx context.Context, req *types.FetchRequest) (*types.F
             Authors:     []string{"Author Name"},
             Description: "A book about things.",
             Identifiers: map[string]string{"isbn13": "9780000000000"},
+            Characters: []types.MetadataCharacter{
+                {
+                    ID:   "char_1",
+                    Name: "Example Hero",
+                    Role: "main",
+                },
+            },
         },
     }, nil
 }

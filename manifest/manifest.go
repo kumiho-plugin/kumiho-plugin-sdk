@@ -61,15 +61,16 @@ type IconSet struct {
 // It is stored in the plugin registry and validated by the core on install.
 type Manifest struct {
 	// Identity
-	ID          string   `json:"id"`   // e.g. "kumiho-plugin-metadata-kitsu"
-	Name        string   `json:"name"` // e.g. "Kitsu Manga"
-	Description string   `json:"description"`
-	Version     string   `json:"version"` // semver, e.g. "1.2.0"
-	Author      string   `json:"author"`
-	Homepage    string   `json:"homepage,omitempty"`
-	Repository  string   `json:"repository,omitempty"`
-	License     string   `json:"license,omitempty"`
-	Icons       *IconSet `json:"icons,omitempty"`
+	ID              string                    `json:"id"`   // e.g. "kumiho-plugin-metadata-kitsu"
+	Name            string                    `json:"name"` // e.g. "Kitsu Manga"
+	Description     string                    `json:"description"`
+	DescriptionI18n sdkconfig.LocalizedString `json:"description_i18n,omitempty"`
+	Version         string                    `json:"version"` // semver, e.g. "1.2.0"
+	Author          string                    `json:"author"`
+	Homepage        string                    `json:"homepage,omitempty"`
+	Repository      string                    `json:"repository,omitempty"`
+	License         string                    `json:"license,omitempty"`
+	Icons           *IconSet                  `json:"icons,omitempty"`
 
 	// Trust & runtime
 	TrustLevel         TrustLevel  `json:"trust_level"`
@@ -91,7 +92,7 @@ type Manifest struct {
 	SDKVersion string `json:"sdk_version,omitempty"`
 
 	// Config schema version declared by this plugin version
-	ConfigSchemaVersion string `json:"config_schema_version"`
+	ConfigSchemaVersion string                `json:"config_schema_version"`
 	ConfigSchema        *sdkconfig.Schema     `json:"config_schema,omitempty"`
 	Auth                *sdkconfig.AuthSchema `json:"auth,omitempty"`
 
