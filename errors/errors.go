@@ -22,6 +22,9 @@ const (
 	// ErrCodeRateLimited means the provider API rate limit was exceeded.
 	ErrCodeRateLimited ErrorCode = "rate_limited"
 
+	// ErrCodeQuotaExceeded means the provider account quota has been exhausted.
+	ErrCodeQuotaExceeded ErrorCode = "quota_exceeded"
+
 	// ErrCodeUnauthorized means the API key is missing, invalid, or expired.
 	ErrCodeUnauthorized ErrorCode = "unauthorized"
 
@@ -111,4 +114,27 @@ func NewRetryable(code ErrorCode, message string) *PluginError {
 // Newf creates a non-retryable PluginError with a formatted message.
 func Newf(code ErrorCode, format string, args ...any) *PluginError {
 	return &PluginError{Code: code, Message: fmt.Sprintf(format, args...)}
+}
+
+// Parse reconstructs a PluginError from Error() output.
+func Parse(message string) (*PluginError, bool) {
+	if len(message) < 4 || message[0] != '[' {
+		return nil, false
+	}
+
+	end := -1
+	for i := 1; i < len(message); i++ {
+		if message[i] == ']' {
+			end = i
+			break
+		}
+	}
+	if end <= 1 || len(message) <= end+2 || message[end+1] != ' ' {
+		return nil, false
+	}
+
+	return &PluginError{
+		Code:    ErrorCode(message[1:end]),
+		Message: message[end+2:],
+	}, true
 }

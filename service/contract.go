@@ -4,10 +4,17 @@
 // the endpoints listed below. All bodies are JSON (application/json).
 // The plugin process must be ready within [plugin.StartupTimeout] after start.
 //
-// # Endpoint table
+// # Metadata plugin endpoints
 //
 //	POST /search    Search for metadata candidates
 //	POST /fetch     Fetch full metadata for a selected candidate
+//	GET  /health    Return operational status
+//	GET  /manifest  Return the static plugin declaration
+//
+// # Translation plugin endpoints
+//
+//	POST /translate Translate text to a target language
+//	POST /detect    Detect the language of the given text
 //	GET  /health    Return operational status
 //	GET  /manifest  Return the static plugin declaration
 //
@@ -21,16 +28,25 @@
 //
 // # Request/response types
 //
-//	POST /search   body: types.SearchRequest  → types.SearchResponse
-//	POST /fetch    body: types.FetchRequest   → types.FetchResponse
-//	GET  /health   body: —                   → healthcheck.Response
-//	GET  /manifest body: —                   → manifest.Manifest
+//	POST /search    body: types.SearchRequest    → types.SearchResponse
+//	POST /fetch     body: types.FetchRequest     → types.FetchResponse
+//	POST /translate body: types.TranslateRequest → types.TranslateResponse
+//	POST /detect    body: types.DetectRequest    → types.DetectResponse
+//	GET  /health    body: —                      → healthcheck.Response
+//	GET  /manifest  body: —                      → manifest.Manifest
 package service
 
 // HTTP path constants for ServiceRuntime endpoints.
 const (
+	// Metadata endpoints
 	PathSearch   = "/search"
 	PathFetch    = "/fetch"
+
+	// Translation endpoints
+	PathTranslate = "/translate"
+	PathDetect    = "/detect"
+
+	// Common endpoints
 	PathHealth   = "/health"
 	PathManifest = "/manifest"
 )

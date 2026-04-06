@@ -33,4 +33,12 @@ const (
 
 	// PersonMatch matches an author/artist name to a person record.
 	PersonMatch Capability = "person.match"
+
+	// ── Translation ──────────────────────────────────────────────────────────
+
+	// TranslationDetect detects the language of the given text.
+	TranslationDetect Capability = "translation.detect"
+
+	// TranslationTranslate translates text from one language to another.
+	TranslationTranslate Capability = "translation.translate"
 )

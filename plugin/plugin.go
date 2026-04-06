@@ -3,15 +3,22 @@
 //
 // # BinaryRuntime plugins
 //
-// Implement the [MetadataPlugin] interface. The core uses HashiCorp go-plugin to
-// manage the child process lifecycle and RPC communication.
+// Implement the [MetadataPlugin] or [TranslationPlugin] interface. The core uses
+// HashiCorp go-plugin to manage the child process lifecycle and RPC communication.
 //
 // # ServiceRuntime plugins (Docker / HTTP)
 //
-// Expose the following HTTP endpoints. All request and response bodies are JSON.
+// Metadata plugins expose the following HTTP endpoints:
 //
 //	POST /search    → accepts types.SearchRequest, returns types.SearchResponse
 //	POST /fetch     → accepts types.FetchRequest,  returns types.FetchResponse
+//	GET  /health    → returns healthcheck.Response
+//	GET  /manifest  → returns manifest.Manifest
+//
+// Translation plugins expose the following HTTP endpoints:
+//
+//	POST /translate → accepts types.TranslateRequest, returns types.TranslateResponse
+//	POST /detect    → accepts types.DetectRequest,    returns types.DetectResponse
 //	GET  /health    → returns healthcheck.Response
 //	GET  /manifest  → returns manifest.Manifest
 //
@@ -37,7 +44,7 @@ import (
 // after the process or container starts.
 const StartupTimeout = 15 * time.Second
 
-// MetadataPlugin is the Go interface implemented by BinaryRuntime plugins.
+// MetadataPlugin is the Go interface implemented by BinaryRuntime metadata plugins.
 // ServiceRuntime plugins expose equivalent HTTP endpoints (see package doc).
 type MetadataPlugin interface {
 	// Search returns metadata candidates for the given request.
@@ -48,6 +55,25 @@ type MetadataPlugin interface {
 	// Fetch returns full metadata for the candidate identified by req.
 	// Plugins should return a non-nil FetchResponse even on error.
 	Fetch(ctx context.Context, req *types.FetchRequest) (*types.FetchResponse, error)
+
+	// Healthcheck returns the plugin's current operational status.
+	Healthcheck(ctx context.Context) (*healthcheck.Response, error)
+
+	// Manifest returns the static plugin declaration.
+	Manifest() *manifest.Manifest
+}
+
+// TranslationPlugin is the Go interface implemented by BinaryRuntime translation plugins.
+// ServiceRuntime plugins expose equivalent HTTP endpoints (see package doc).
+type TranslationPlugin interface {
+	// Translate translates the given text to the target language.
+	// Plugins should return a non-nil TranslateResponse even on error;
+	// set TranslateResponse.Error instead of returning a Go error when possible.
+	Translate(ctx context.Context, req *types.TranslateRequest) (*types.TranslateResponse, error)
+
+	// Detect detects the language of the given text.
+	// Plugins should return a non-nil DetectResponse even on error.
+	Detect(ctx context.Context, req *types.DetectRequest) (*types.DetectResponse, error)
 
 	// Healthcheck returns the plugin's current operational status.
 	Healthcheck(ctx context.Context) (*healthcheck.Response, error)
