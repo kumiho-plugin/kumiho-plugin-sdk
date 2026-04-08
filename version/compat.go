@@ -29,7 +29,7 @@ import (
 )
 
 // SDK is the current version of kumiho-plugin-sdk.
-const SDK = "0.1.3"
+const SDK = "0.1.5"
 
 // IsCompatible reports whether coreVersion satisfies the constraint
 // minVersion <= coreVersion <= maxVersion.

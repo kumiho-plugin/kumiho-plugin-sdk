@@ -168,6 +168,9 @@ import "github.com/kumiho-plugin/kumiho-plugin-sdk/service"
 
 The plugin must be ready within `plugin.StartupTimeout` (15s) of process/container start.
 
+Registry artifacts may optionally declare `arch` on each `manifest.Artifact`.
+When `arch` is omitted, the artifact is treated as compatible with any CPU architecture for that platform.
+
 ---
 
 ## Healthcheck conventions

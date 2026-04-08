@@ -45,6 +45,7 @@ const (
 // Artifact describes a single downloadable plugin binary or image.
 type Artifact struct {
 	Platform  Platform `json:"platform"`
+	Arch      string   `json:"arch,omitempty"` // optional CPU architecture (e.g. "amd64", "arm64"); empty means any arch
 	URL       string   `json:"url"`
 	Checksum  string   `json:"checksum"`            // format: "sha256:<hex>"
 	Signature string   `json:"signature,omitempty"` // detached signature for verified plugins
